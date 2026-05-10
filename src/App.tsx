@@ -689,7 +689,7 @@ function HomeContent({ setActiveTab }: { setActiveTab: (tab: string) => void }) 
         >
           {/* Profile Picture */}
           <img 
-            src="/profile.jpg" 
+            src={`${import.meta.env.BASE_URL}profile.jpg`} 
             alt="張詠鈞的大頭照" 
             className="w-full h-full object-cover object-[center_35%]"
             onError={(e) => {
@@ -811,7 +811,7 @@ function HomeContent({ setActiveTab }: { setActiveTab: (tab: string) => void }) 
               </div>
               <div className="mt-4 border border-gray-700 rounded-xl overflow-hidden max-w-sm">
                 <img 
-                  src="/toeic.jpg" 
+                  src={`${import.meta.env.BASE_URL}toeic.jpg`} 
                   alt="TOEIC Certificate" 
                   className="w-full h-auto object-cover"
                   onError={(e) => {
