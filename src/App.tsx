@@ -751,16 +751,16 @@ function HomeContent({ setActiveTab }: { setActiveTab: (tab: string) => void }) 
 
           {/* Internship */}
           <div className="bg-gray-900/50 p-8 rounded-2xl shadow-sm border border-gray-800 flex flex-col justify-center text-gray-300 leading-relaxed space-y-4">
-            <h3 className="text-xl font-bold text-white border-b border-white/10 pb-2 w-fit px-4">2025的御風輪實習</h3>
+            <h3 className="text-xl font-bold text-white border-b border-white/10 pb-2 w-fit px-4">2025 的御風輪實習</h3>
             <div className="space-y-4 px-4 text-gray-400">
               <p>
-                帶著行李又緊張又興奮的心情與大家陸陸續續的上了船，在船上的 16 天過完後我覺得很多對於船的問題也一起解決了。
+                帶著行李又緊張又興奮的心情，與大家陸陸續續地上了船。在船上的 16 天過完後，我覺得很多對於船的疑問也隨之解決了。
               </p>
               <p>
-                在一開始對於船員會不會不好相處而有點過於擔心，導致我有點太緊繃，我想這是我特別需要加強的問題，對於較陌生的人與我的交流與談話總是使我處在一個緊張的狀態。
+                在一開始對於船員會不會不好相處而有點過於擔心，導致我有點太緊繃，我想這是我特別需要加強的問題：對於較陌生的人與我的交流與談話，總是使我處在一個緊張的狀態。
               </p>
               <p>
-                在船上的氣氛大部分一直很好，上課的時候也在航行中對於想靠意志力不暈船的我有點痛苦，學到了很多有關電子航圖的使用方法，方位圈位置線的使用方法印象深刻，雷控標的實際呈現畫面很酷，s band、x band 校準雜訊的過程依天候而定，六分儀實物操作測太陽這次實習也讓我對於航運業的實際實物有了更深了解。
+                在船上的氣氛大部分一直很好。上課的時候也在航行中，對於想靠意志力不暈船的我來說有點痛苦。學到了很多有關電子航圖的使用方法，方位圈位置線的使用方法讓我印象深刻；雷達控標的實際呈現畫面很酷，S-band、X-band 校準雜訊的過程依天候而定；六分儀實物操作測太陽，這次實習也讓我對於航運業的實際實務有了更深的了解。
               </p>
             </div>
           </div>
