@@ -466,26 +466,27 @@ function VideoContent() {
         </p>
       </div>
 
-      <div className="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto p-12 text-center space-y-6">
-        <div className="w-20 h-20 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-500/30">
-          <Video className="w-10 h-10 text-purple-400" />
-        </div>
-        <h3 className="text-2xl font-bold text-white">點擊下方按鈕觀看完整影片</h3>
-        <p className="text-gray-400 max-w-md mx-auto">
-          影片因檔案大小限制，請點擊連結前往 Google 雲端硬碟觀看高雄旅遊 AI 生成短片。
-        </p>
-        <div className="pt-4">
-          <a 
-            href="https://drive.google.com/file/d/1cgN-9SYIKx6Yqd3Nw3_9ASxDsol4ogRe/view?usp=drivesdk" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full font-bold transition-all transform hover:scale-105 shadow-lg shadow-purple-900/20"
-          >
-            <Play className="w-5 h-5 fill-current" />
-            ai旅遊影片
-            <ExternalLink className="w-4 h-4" />
-          </a>
-        </div>
+      <div className="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto aspect-video relative group">
+        <iframe
+          src="https://www.youtube.com/embed/IKtw4KG6gDw"
+          title="AI 旅遊影片"
+          className="w-full h-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      </div>
+      
+      <div className="flex justify-center pt-4">
+        <a 
+          href="https://youtu.be/IKtw4KG6gDw" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 rounded-full font-medium border border-purple-500/30 transition-all"
+        >
+          <Play className="w-4 h-4 fill-current" />
+          在 YouTube 上開啟
+          <ExternalLink className="w-3 h-3" />
+        </a>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
