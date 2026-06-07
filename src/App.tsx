@@ -564,7 +564,7 @@ function VideoContent() {
 
       <div className="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto aspect-video relative group">
         <iframe
-          src="https://www.youtube.com/embed/IKtw4KG6gDw"
+          src="https://www.youtube.com/embed/X50s7ZEgZ1k"
           title="AI 旅遊影片"
           className="w-full h-full border-0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -574,7 +574,7 @@ function VideoContent() {
       
       <div className="flex justify-center pt-4">
         <a 
-          href="https://youtu.be/IKtw4KG6gDw" 
+          href="https://youtu.be/X50s7ZEgZ1k" 
           target="_blank" 
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 rounded-full font-medium border border-purple-500/30 transition-all"
