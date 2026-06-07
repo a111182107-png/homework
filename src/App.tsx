@@ -1,12 +1,117 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
-import { Github, Linkedin, Mail, Menu, Home, FileText, Video, Box, MapPin, Clock, Calendar, Sun, Car, Hotel, Wallet, ExternalLink, Utensils, Info, Play } from 'lucide-react';
+import { Github, Linkedin, Mail, Menu, Home, FileText, Video, Box, MapPin, Clock, Calendar, Sun, Car, Hotel, Wallet, ExternalLink, Utensils, Info, Play, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
+import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 const SectionDivider = () => (
   <div className="w-full py-16 flex justify-center">
     <div className="h-[1px] w-full max-w-2xl bg-gradient-to-r from-transparent via-gray-700 to-transparent opacity-30"></div>
   </div>
 );
+
+function CustomPdfViewer({ url, linkUrl }: { url: string, linkUrl: string }) {
+  const [numPages, setNumPages] = useState<number>();
+  const [pageNumber, setPageNumber] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(800);
+
+  useEffect(() => {
+    // 預設重置頁碼
+    setPageNumber(1);
+  }, [url]);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.clientWidth);
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
+    setNumPages(numPages);
+  }
+
+  function previousPage() {
+    setPageNumber((prev) => Math.max(prev - 1, 1));
+  }
+
+  function nextPage() {
+    setPageNumber((prev) => Math.min(prev + 1, numPages || 1));
+  }
+
+  return (
+    <div className="flex flex-col items-center w-full h-full relative group bg-gray-900/50" ref={containerRef}>
+      <div className="flex-1 w-full flex items-center justify-center overflow-hidden">
+        <Document
+          file={url}
+          onLoadSuccess={onDocumentLoadSuccess}
+          loading={
+            <div className="animate-pulse flex space-x-4 p-10">
+              <div className="text-gray-500 font-mono">載入簡報中...Loading PDF...</div>
+            </div>
+          }
+          className="max-w-full flex justify-center items-center h-full"
+        >
+          {numPages && (
+            <Page
+              pageNumber={pageNumber}
+              className="shadow-2xl transition-all duration-300 transform scale-[0.98] sm:scale-100"
+              renderTextLayer={false}
+              renderAnnotationLayer={false}
+              width={containerWidth ? Math.min(containerWidth - 32, 1000) : 800}
+            />
+          )}
+        </Document>
+      </div>
+      
+      {numPages && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-gray-900/90 backdrop-blur-md rounded-full px-6 py-3 flex items-center gap-8 border border-gray-700/50 shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+          <button
+            type="button"
+            disabled={pageNumber <= 1}
+            onClick={previousPage}
+            className="text-white disabled:text-gray-600 hover:text-blue-400 transition-colors p-2"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          
+          <span className="text-gray-300 font-mono text-sm tracking-widest">
+            <span className="text-white font-bold">{pageNumber}</span> <span className="text-gray-500">/</span> {numPages}
+          </span>
+          
+          <button
+            type="button"
+            disabled={pageNumber >= numPages}
+            onClick={nextPage}
+            className="text-white disabled:text-gray-600 hover:text-blue-400 transition-colors p-2"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          <div className="w-px h-6 bg-gray-700 mx-1 border-none"></div>
+
+          <a 
+            href={linkUrl} 
+            target="_blank" 
+            rel="noreferrer" 
+            className="text-gray-400 hover:text-white transition-colors p-2"
+            title="新分頁開啟檔案"
+          >
+            <Maximize2 className="w-5 h-5" />
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function PresentationContent() {
   const [selectedDoc, setSelectedDoc] = useState('manus');
@@ -88,8 +193,8 @@ function PresentationContent() {
       title: "Manus計畫：深度旅遊企劃",
       subtitle: "探索港都的歷史紋理與現代藝文",
       tag: "2026年4月3日 － 4月6日 (高雄)",
-      linkUrl: 'https://docs.google.com/presentation/d/1mZO-wrbC9zM1UkX8GGe2YX5XHRYC42BM/edit?usp=sharing&ouid=108615148852760334436&rtpof=true&sd=true',
-      embedUrl: 'https://docs.google.com/presentation/d/1mZO-wrbC9zM1UkX8GGe2YX5XHRYC42BM/embed?start=false&loop=false&delayms=3000',
+      linkUrl: `${import.meta.env.BASE_URL}manus.pptx.pdf`,
+      embedUrl: `${import.meta.env.BASE_URL}manus.pptx.pdf`,
       mainTitle: "5 人團體自駕行程規劃",
       rental: {
         model: "MG G50 七人座 (2026)",
@@ -133,8 +238,8 @@ function PresentationContent() {
       title: "Gamma計畫：2026 限定旅遊企劃",
       subtitle: "整合經典賽轉播與日光海島生活節",
       tag: "2026年4月3日 － 4月6日 (限定活動)",
-      linkUrl: 'https://docs.google.com/presentation/d/1QP0ZgpiyIIJ31LbjyCj6uPSCyJ2dVXAl/edit?usp=sharing',
-      embedUrl: 'https://docs.google.com/presentation/d/1QP0ZgpiyIIJ31LbjyCj6uPSCyJ2dVXAl/embed?start=false&loop=false&delayms=3000',
+      linkUrl: `${import.meta.env.BASE_URL}gamma.pptx.pdf`,
+      embedUrl: `${import.meta.env.BASE_URL}gamma.pptx.pdf`,
       mainTitle: "5 人深度旅遊 & 賽事巡禮",
       rental: {
         model: "7 人座近郊自駕方案",
@@ -169,8 +274,8 @@ function PresentationContent() {
       title: "Notebooklm：高雄春季紀行",
       subtitle: "遇見大港的百種模樣 | 藝術、生態、奇景",
       tag: "四天三夜深度提案 (4/3 - 4/6)",
-      linkUrl: 'https://docs.google.com/presentation/d/1Nyccad3NWc7NSBAXqmB8t966w64kl-Gt/edit?usp=sharing',
-      embedUrl: 'https://docs.google.com/presentation/d/1Nyccad3NWc7NSBAXqmB8t966w64kl-Gt/embed?start=false&loop=false&delayms=3000',
+      linkUrl: `${import.meta.env.BASE_URL}notebookLM.pptx.pdf`,
+      embedUrl: `${import.meta.env.BASE_URL}notebookLM.pptx.pdf`,
       mainTitle: "港都藝術與海港夕陽導覽",
       rental: {
         model: "捷運 + 輕軌 + 租車 (無縫接軌)",
@@ -205,8 +310,8 @@ function PresentationContent() {
       title: "Gemini計畫：深度旅遊企劃",
       subtitle: "智能規劃的高雄四天三夜遊",
       tag: "高雄清明連假 (4/3 - 4/6)",
-      linkUrl: 'https://docs.google.com/presentation/d/1gZ-_KUawFxUHlohRCN6Uf3iw92dx-bkkrPuKHfH5uvY/edit?usp=sharing',
-      embedUrl: 'https://docs.google.com/presentation/d/1gZ-_KUawFxUHlohRCN6Uf3iw92dx-bkkrPuKHfH5uvY/embed?start=false&loop=false&delayms=3000',
+      linkUrl: `${import.meta.env.BASE_URL}gemini.pdf`,
+      embedUrl: `${import.meta.env.BASE_URL}gemini.pdf`,
       mainTitle: "AI 智能推薦行程",
       rental: {
         model: "多元交通工具",
@@ -291,17 +396,8 @@ function PresentationContent() {
 
           {/* Embedded Presentation View */}
           {(currentDoc as any).embedUrl ? (
-            <div className="bg-[#101010] border border-gray-800 rounded-2xl overflow-hidden w-full aspect-video shadow-2xl relative">
-              <div className="absolute inset-x-0 top-0 h-10 w-full bg-transparent flex items-center justify-end px-4 z-10 pointer-events-none">
-              </div>
-              <iframe 
-                src={(currentDoc as any).embedUrl}
-                frameBorder="0"
-                width="100%"
-                height="100%"
-                allowFullScreen={true}
-                className="w-full h-full relative z-0"
-              ></iframe>
+            <div className="bg-[#050505] border border-gray-800 rounded-3xl overflow-hidden w-full h-[500px] md:h-[700px] shadow-2xl relative flex items-center justify-center isolate">
+              <CustomPdfViewer url={(currentDoc as any).embedUrl} linkUrl={(currentDoc as any).linkUrl} />
             </div>
           ) : (
             <>
